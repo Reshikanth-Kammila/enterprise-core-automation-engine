@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Enterprise Automation Regression Suite" parallel="methods" thread-count="2">
+    
+    <listeners>
+        <listener class-name="com.engine.core.utils.TestListener" />
+    </listeners>
+
+    <test name="Multi-Layered Core Functional Validation">
+        <classes>
+            <class name="com.engine.tests.LoginTest" />
+            <class name="com.engine.tests.HybridWorkflowTest" />
+        </classes>
+    </test>
+</suite>

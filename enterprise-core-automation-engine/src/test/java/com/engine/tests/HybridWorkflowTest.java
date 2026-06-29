@@ -42,5 +42,18 @@ public class HybridWorkflowTest extends BaseTest {
         // Corrected assertion string to match the live website title precisely
         Assert.assertTrue(frontendTitle.contains("Automation Testing Practice Website"), 
                 "Frontend landing page did not open or the website title has changed.");
+        
+        System.out.println("--- PHASE 3: BACKEND DATABASE VALIDATION VIA JDBC ---");
+        /* * Note for Portfolio: In a live corporate environment, the below code executes 
+         * to validate data persistence. It is commented out here because we do not 
+         * possess the proprietary database credentials for the public practice UI.
+         * * DatabaseManager.connect();
+         * List<Map<String, Object>> dbRecord = DatabaseManager.executeQuery(
+         * "SELECT * FROM users WHERE id = '" + generatedId + "'");
+         * * Assert.assertEquals(dbRecord.get(0).get("job_title"), assignedJob, 
+         * "Database record does not match API payload!");
+         * DatabaseManager.disconnect();
+         */
+        System.out.println("Database architecture mapped and ready for internal DB credentials.");
     }
 }
