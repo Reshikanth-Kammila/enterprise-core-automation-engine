@@ -1,0 +1,34 @@
+name: Enterprise Core Automation CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-execution:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    # NEW: Tells the server to go inside your nested Eclipse folder!
+    - name: Execute Regression Suite
+      working-directory: ./enterprise-core-automation-engine
+      run: xvfb-run mvn clean test
+
+    # NEW: Points to the nested target folder to grab your dashboard
+    - name: Upload ExtentReports Artifact
+      if: always() 
+      uses: actions/upload-artifact@v4
+      with:
+        name: Enterprise-Execution-Dashboard
+        path: enterprise-core-automation-engine/target/ExtentReports/AutomationReport.html
