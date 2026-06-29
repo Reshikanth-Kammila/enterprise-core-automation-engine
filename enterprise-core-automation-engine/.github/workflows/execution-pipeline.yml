@@ -1,0 +1,40 @@
+name: Enterprise Core Automation CI
+
+# 1. Trigger: When does this pipeline run?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# 2. Jobs: What server are we using?
+jobs:
+  test-execution:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step A: Download your repository code onto the virtual server
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # Step B: Install the exact version of Java we are using
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    # Step C: Execute the Maven Test Suite
+    # Note: We use xvfb-run (X Virtual Framebuffer) to simulate a monitor display.
+    # This allows standard Selenium Chrome to open in a Linux cloud server without crashing!
+    - name: Execute Regression Suite
+      run: xvfb-run mvn clean test
+
+    # Step D: Save the ExtentReports Dashboard so you can view it
+    - name: Upload ExtentReports Artifact
+      if: always() # This ensures the report uploads even if a test fails
+      uses: actions/upload-artifact@v4
+      with:
+        name: Enterprise-Execution-Dashboard
+        path: target/ExtentReports/AutomationReport.html
