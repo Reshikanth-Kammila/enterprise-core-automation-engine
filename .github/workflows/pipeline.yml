@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  # THIS LINE UNLOCKS THE MANUAL RUN BUTTON IN GITHUB
+  workflow_dispatch: 
 
 jobs:
   test-execution:
@@ -20,12 +22,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # NEW: Tells the server to go inside your nested Eclipse folder!
     - name: Execute Regression Suite
       working-directory: ./enterprise-core-automation-engine
       run: xvfb-run mvn clean test
 
-    # NEW: Points to the nested target folder to grab your dashboard
     - name: Upload ExtentReports Artifact
       if: always() 
       uses: actions/upload-artifact@v4
